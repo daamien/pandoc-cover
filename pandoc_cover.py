@@ -52,7 +52,7 @@ def prepare(doc):
             # handle file not found error.
 
         # Change the metadata
-/bin/bash: q: command not found
+        # /!\ this is not useful at the moment
         doc.metadata[TAG]=pdf_file
         # Insert the PDF page at the beginning of the document
         if "header-includes" not in doc.metadata:
