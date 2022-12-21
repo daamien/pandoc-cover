@@ -21,3 +21,9 @@ dependencies = [
 [project.urls]
 "Homepage" = "https://github.com/daamien/pandoc-cover"
 "Bug Tracker" = "https://github.com/daamien/pandoc-cover/issues"
+
+[project.scripts]
+pandoc-cover = 'pandoc_cover:main'
+
+[tool.setuptools]
+py-modules = ["pandoc_cover"]
