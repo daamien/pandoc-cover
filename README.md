@@ -23,7 +23,7 @@ Currently, this only works if you are also using the
 4. The `bar.md` header should look like this:
 
    ```yaml
-   title: 'Hello World !"
+   title: 'Hello World !'
    whatever: 'this is so simple'
    titlepage: false
    titlepage-background: 'path/to/foo.svg'
