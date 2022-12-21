@@ -1,6 +1,6 @@
 [project]
 name = "pandoc-cover"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Damien Clochard", email="damien.clochard@dalibo.com" },
 ]

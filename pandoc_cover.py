@@ -33,7 +33,7 @@ def prepare(doc):
         for k in doc.metadata.content:
             meta[k]= pf.stringify(doc.metadata[k])
         # Render the SVG content
-        svg_output = template.render(metadata=meta)
+        svg_output = template.render(meta)
         # Save the results into a temporary SVG file
         path, name = os.path.split(template_file)
         svg_file=os.path.join(path,'_'+name)
