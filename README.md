@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/pandoc-cover.svg)](https://pypi.org/project/pandoc-cover/)
+
 # pandoc-cover
 
 Add a cover to a pdf document using an SVG template and the pandoc metadata.
@@ -24,3 +26,8 @@ Add a cover to a pdf document using an SVG template and the pandoc metadata.
     pandoc --filter=pandoc-cover bar.md -o bar.pdf
     ```
 
+## Install
+
+```
+pip install pandoc-cover
+```
