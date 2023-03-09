@@ -5,7 +5,6 @@ Generate de PDF cover using an SVG template and
 the document metadata
 """
 
-import os
 import subprocess
 import tempfile
 
@@ -44,38 +43,40 @@ def insert(doc,page,where):
     env = jj2.Environment(loader=jj2.FileSystemLoader('.'))
     template = env.get_template(svg_template)
 
-    # The metadata is stored inside pf.MetaInlines objects
-    meta = {}
-    for k in doc.metadata.content:
-        meta[k]= pf.stringify(doc.metadata[k])
-
     # Render the SVG content
-    svg_output = template.render(meta)
+    svg_output = template.render(doc.get_metadata())
 
-    # Save the results into a temporary SVG file
-    #path, name = os.path.split(template_file)
-    #svg_file=os.path.join(path,'_'+name)
-    tmp_svg_file=tempfile.NamedTemporaryFile()
-    with open(tmp_svg_file.name, "w", encoding="utf-8") as file_handler:
-        file_handler.write(svg_output)
+    # Save the results into an intermediary SVG file
+    # In verbose mode, keep the file for debugging
+    delete_svg=not doc.get_metadata('panflute-verbose',False)
+    svg_file=tempfile.NamedTemporaryFile(mode='w',
+                                             prefix=FILTER_NAME+'-',
+                                             suffix=".svg",
+                                             delete=delete_svg)
+    svg_file.write(svg_output)
+    svg_file.flush()
 
-    # Convert the SVG File into a PDF file
-    # the PDF file can't be temporary because xelatex will use it later
-    # in the pandoc generation process
-    path, name = os.path.split(svg_template)
-    pdf_file=os.path.join(path,'_'+name+'.pdf')
+    # the PDF file can't be deleted because xelatex will use it later
+    # in the pandoc generation proces
+    pdf_file_path=svg_file.name+'.pdf'
+
     try:
-        subprocess.run(["rsvg-convert",
-                        "--format=pdf",
-                        "--output="+pdf_file,
-                        tmp_svg_file.name],
-                        check=True)
+        result=subprocess.run([ "rsvg-convert",
+                                "--format=pdf",
+                                "--output="+pdf_file_path,
+                                svg_file.name],
+                                check=True)
+        if doc.get_metadata('panflute-verbose',False):
+            pf.debug(FILTER_NAME+": "+' '.join(result.args))
     except FileNotFoundError:
-        print(FILTER_NAME+": rsvg-convert is not found")
+        pf.debug(FILTER_NAME+": rsvg-convert is not found")
+    except subprocess.CalledProcessError as err:
+        pf.debug(FILTER_NAME+": rsvg-convert error")
+        pf.debug(err)
     finally:
-        tmp_svg_file.close()
+        svg_file.close()
 
-    raw_latex = r'\includepdf{' + pdf_file + r'}'
+    raw_latex = r'\includepdf{' + pdf_file_path + r'}'
     append_rawinline_in_metadata(doc,where,raw_latex)
 
 

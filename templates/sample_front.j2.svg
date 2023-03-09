@@ -126,7 +126,7 @@
          id="tspan384"
          x="92.943817"
          y="300.62271"
-         style="font-size:7.72547px;text-align:center;text-anchor:middle;stroke-width:0.241421">{{ revision }}</tspan></text>
+         style="font-size:7.72547px;text-align:center;text-anchor:middle;stroke-width:0.241421">{{ revision.number }}</tspan></text>
   </g>
 </svg>
 
