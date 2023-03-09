@@ -1,7 +1,8 @@
 ---
 title: 'T I T L E'
 subtitle: 'the most basic example'
-revision: '0.0.1'
+revision:
+  number: '0.0.1'
 
 papersize: a4
 toc: true
@@ -12,6 +13,7 @@ pandoc-cover:
   inside-back: 'templates/blank.svg'
   back: 'templates/sample_back.svg'
 
+#panflute-verbose: True
 ...
 
 
